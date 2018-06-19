@@ -5,6 +5,7 @@ const session = require('express-session');
 
 const { checkForSession } = require('./middlewares/checkForSession');
 const { read } = require('./controllers/swag_controller');
+const { login, register, signout, getUser } = require('./controllers/auth_controller');
 
 const app = express();
 
@@ -22,7 +23,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// Swag
 app.get('/api/swag', read);
+
+// Auth
+app.get('/api/user', getUser);
+app.post('/api/register', register);
+app.post('/api/login', login);
+app.post('/api/signout', signout);
 
 const port = process.env.PORT;
 app.listen(port, () => { console.log(`Listening on port: ${ port }`) });
