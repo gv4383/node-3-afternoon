@@ -7,6 +7,7 @@ const { checkForSession } = require('./middlewares/checkForSession');
 const { read } = require('./controllers/swag_controller');
 const { login, register, signout, getUser } = require('./controllers/auth_controller');
 const { add, remove, checkout } = require('./controllers/cart_controller');
+const { search } = require('./controllers/search_controller');
 
 const app = express();
 
@@ -17,10 +18,12 @@ app.use(session({
   saveUninitialized: true
 }));
 app.use(checkForSession);
+app.use(express.static(`${__dirname}/build`));
 
 app.use((req, res, next) => {
-  console.log(`req.body: ${ req.body }`);
-  console.log(`req.session: ${ req.session }`);
+  console.log('req.query: ', req.query);
+  console.log('req.body: ', req.body);
+  console.log('req.session: ', req.session);
   next();
 });
 
@@ -37,6 +40,9 @@ app.post('/api/signout', signout);
 app.post('/api/cart', add);
 app.post('/api/cart/checkout', checkout);
 app.delete('/api/cart', remove);
+
+// Search
+app.get('/api/search', search);
 
 const port = process.env.PORT;
 app.listen(port, () => { console.log(`Listening on port: ${ port }`) });

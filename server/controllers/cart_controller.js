@@ -10,7 +10,7 @@ module.exports = {
     if ( index === -1 ) {
       const selectedSwag = swag.find( swag => swag.id == id );
 
-      cart.push( selectedSwag );
+      cart.push(selectedSwag);
       req.session.user.total += selectedSwag.price;
     }
 
